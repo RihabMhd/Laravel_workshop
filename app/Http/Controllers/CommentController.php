@@ -28,7 +28,13 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated=$request->validate([
+            'body'=>'required|min:10'
+        ]);
+
+        Comment::create($validated);
+
+        return redirect()->route('posts.show')->with('session','comment created Successfuly');
     }
 
     /**
