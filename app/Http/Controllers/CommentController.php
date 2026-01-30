@@ -28,14 +28,18 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $validated=$request->validate([
-            'body'=>'required|min:10'
+        $validated = $request->validate([
+            'body' => 'required|min:10',
+            'post_id' => 'required|exists:posts,id',
         ]);
 
         Comment::create($validated);
 
-        return redirect()->route('posts.show')->with('session','comment created Successfuly');
+        return redirect()
+            ->route('posts.show', $request->post_id)
+            ->with('success', 'Comment created successfully');
     }
+
 
     /**
      * Display the specified resource.
